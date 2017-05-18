@@ -21,42 +21,24 @@ bool exists(vector<int> avl_tree, int number)
     }
   }
 }
+BinaryNode* convertToLinkedTree(vector<int> max_heap, int index)
+{
+  if(index < 0 || index >= max_heap.size()) return NULL;
+
+    BinaryNode* node = new BinaryNode(max_heap[index]);
+    int left = index*2 + 1;
+    int right = index*2 + 2;
+
+    node->left_child = convertToLinkedTree(max_heap, left);
+    node->right_child = convertToLinkedTree(max_heap, right);
+
+    return node;
+}
 
 BinaryNode* convertToLinkedTree(vector<int> max_heap)
 {
-  BinaryNode* node_array[max_heap.size()];
 
-  for(int i = 0; i < max_heap.size(); i++)
-  {
-    node_array[i] = new BinaryNode(max_heap[i]);
-    //cout << node_array[i]->value << endl;;
-  }
-
-  for(int i = 0; i < max_heap.size(); i++)
-  {
-    cout << i << endl;
-    int left = i*2 + 1;
-    int right = i*2 + 2;
-    if(left >= max_heap.size())
-    {
-      //cout << left << endl;
-      break;
-    }
-
-    node_array[i]->left_child = node_array[left];
-    node_array[i]->right_child = node_array[right];
-  }
-
-  // for(int i = 0; i < max_heap.size(); i++)
-  // {
-  //   cout << "Valor: " << node_array[i]->value << endl;
-  //   cout << "left: " << node_array[i]->left_child->value << endl;
-  //   cout << "right: " << node_array[i]->right_child->value << endl;
-  //   cout << "--------------------------------------------" << endl;
-  // }
-  //cout << node_array[0]->left_child->right_child->left_child->value << endl;
-
-  return node_array[0];
+  return convertToLinkedTree(max_heap, 0);
 }
 
 int main ()
